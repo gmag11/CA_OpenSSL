@@ -10,7 +10,6 @@ rm intermediate/serial*
 
 rm -r certs
 rm -r crl
-rm -r csr
 rm -r private
 rm index*
 rm serial*
