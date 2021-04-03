@@ -4,17 +4,25 @@ source .env
 
 echo "Enter subdomain without $DOMAIN ending"
 read SUBDOMAIN
-echo "Enter private key password"
+echo "Enter private key password. Can be empty to generate unencrypted key only"
 read -s KEY_PASS
-echo "Repeat key password"
-read -s KEY_PASS_1
 
-if [[ "$KEY_PASS" != "$KEY_PASS_1" ]]
+if [[ "$KEY_PASS" != "" ]]
 then
-  # echo "Passwords do not match $KEY_PASS - $KEY_PASS_1"
-  exit 1
+  echo "Repeat key password"
+  read -s KEY_PASS_1
 fi
 
+if [[ "$KEY_PASS" == "" ]]
+then
+  KEY_PASS="123456"
+else
+  if [[ "$KEY_PASS" != "$KEY_PASS_1" ]]
+  then
+    # echo "Passwords do not match $KEY_PASS - $KEY_PASS_1"
+    exit 1
+  fi
+fi
 #echo Password is ${KEY_PASS}
 
 # Create the private key and CSR
@@ -28,3 +36,11 @@ openssl ca -config intermediate/openssl_server.cnf -extensions server_cert -days
 
 # Validate the certificate
 openssl x509 -noout -text -in intermediate/certs/${SUBDOMAIN}.${DOMAIN}.crt.pem
+
+# Create certificate chain
+cat intermediate/certs/${SUBDOMAIN}.${DOMAIN}.crt.pem intermediate/certs/${INT_CA_FILE_PREFIX}.crt.pem > intermediate/certs/${SUBDOMAIN}.${DOMAIN}.fullchain.pem
+
+if [[ "$KEY_PASS" == "123456" ]]
+then
+  rm intermediate/private/${SUBDOMAIN}.${DOMAIN}.key.pem
+fi
