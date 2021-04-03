@@ -1,0 +1,9 @@
+.env
+*.cnf
+index.txt*
+serial*
+certs/
+private/
+csr/
+crl/
+crlnumber*
