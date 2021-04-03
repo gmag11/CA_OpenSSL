@@ -1,5 +1,5 @@
-# CA_OpenSSL
-Boilerplate to create a OpenSSL CA with scripts to automate common tasks
+# CA_OpenSSL_ECC
+Boilerplate to create a OpenSSL CA using ECC with scripts to automate common tasks
 
 References: 
 - **Main reference**: [Building an OpenSSL Certificate Authority](https://devcentral.f5.com/s/articles/building-an-openssl-certificate-authority-introduction-and-design-considerations-for-elliptical-curves-27720)
