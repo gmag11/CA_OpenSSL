@@ -1,12 +1,11 @@
 # OpenSSL Root CA configuration file
-# Copy to /root/ca/openssl_root.cnf
 
 [ ca ]
 default_ca = CA_default
 
 [ CA_default ]
 # Directory and file locations.
-dir               = #DIRECTORY#/ca
+dir               = #DIRECTORY#
 certs             = $dir/certs
 crl_dir           = $dir/crl
 new_certs_dir     = $dir/certs
@@ -15,8 +14,8 @@ serial            = $dir/serial
 RANDFILE          = $dir/private/.rand
 
 # The root key and root certificate.
-private_key       = $dir/private/ca.#DOMAIN#.key.pem
-certificate       = $dir/certs/ca.#DOMAIN#.crt.pem
+private_key       = $dir/private/ca.#DOMAIN_NAME#.key.pem
+certificate       = $dir/certs/ca.#DOMAIN_NAME#.crt.pem
 
 # For certificate revocation lists.
 crlnumber         = $dir/crlnumber
@@ -77,13 +76,13 @@ emailAddress                    = Email Address
 
 # Optionally, specify some defaults.
 # **********************************************
-countryName_default             = ES
-stateOrProvinceName_default     = MADRID
-localityName_default            = Madrid
-0.organizationName_default      = Company Inc.
-organizationalUnitName_default  = Company Dept
-commonName_default              = My Root CA
-emailAddress_default            = my@email.com
+countryName_default             = #COUNTRY#
+stateOrProvinceName_default     = #STATE#
+localityName_default            = #CITY#
+0.organizationName_default      = #COMPANY#
+organizationalUnitName_default  = #COMP_UNIT#
+commonName_default              = #COMPANY# Root CA
+emailAddress_default            = #EMAIL#
 # **********************************************
 
 [ v3_ca ]
@@ -126,9 +125,9 @@ authorityInfoAccess = @ocsp_info
 subjectAltName = @alt_names
 
 [alt_names]
-DNS.0 = ca.#FULLDOMAIN#
-DNS.1 = #FULLDOMAIN#
-DNS.2 = *.#FULLDOMAIN#
+DNS.0 = ca.#DOMAIN#
+DNS.1 = #DOMAIN#
+DNS.2 = *.#DOMAIN#
 
 [ crl_ext ]
 # Extension for CRLs (`man x509v3_config`).
@@ -143,8 +142,8 @@ keyUsage = critical, digitalSignature
 extendedKeyUsage = critical, OCSPSigning
 
 [crl_info]
-URI.0 = http://crl.#FULLDOMAIN#/#DOMAIN#.crl
+URI.0 = http://crl.#DOMAIN#/#DOMAIN_NAME#.crl
 
 [ocsp_info]
-caIssuers;URI.0 = http://ocsp.#FULLDOMAIN#/ca.#DOMAIN#.crt
-OCSP;URI.0 = http://ocsp.#FULLDOMAIN#/
+caIssuers;URI.0 = http://ocsp.#DOMAIN#/ca.#DOMAIN_NAME#.crt
+OCSP;URI.0 = http://ocsp.#DOMAIN#/
